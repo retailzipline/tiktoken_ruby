@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Compile and Upload
 
 on:
   workflow_dispatch:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   ci-data:
+    name: Fetch CI data
     runs-on: ubuntu-latest
     outputs:
       result: ${{ steps.fetch.outputs.result }}
@@ -20,7 +21,7 @@ jobs:
           stable-ruby-versions: |
             exclude: [head]
   cross-gem:
-    name: Compile native gem for ${{ matrix.platform }}
+    name: ${{ matrix.platform }} compilation
     runs-on: ubuntu-latest
     needs: ci-data
     strategy:
@@ -28,18 +29,33 @@ jobs:
         platform: ${{ fromJSON(needs.ci-data.outputs.result).supported-ruby-platforms }}
     steps:
       - uses: actions/checkout@v3
-
+        name: Checkout project
       - uses: ruby/setup-ruby@v1
+        name: Setup ruby
         with:
-          ruby-version: "3.1"
-
+          ruby-version: 3.2
       - uses: oxidize-rb/actions/cross-gem@v1
+        name: Compile ${{ matrix.platform }}
         id: cross-gem
         with:
           platform: ${{ matrix.platform }}
           ruby-versions: ${{ join(fromJSON(needs.ci-data.outputs.result).stable-ruby-versions, ',') }}
-
-      - uses: actions/upload-artifact@v2
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: pkg
+      - uses: fac/ruby-gem-setup-credentials-action@v2
+        name: Set up github creds for pushing
         with:
-          name: cross-gem
-          path: ${{ steps.cross-gem.outputs.gem-path }}
+          user: ""
+          key: rubygems
+          token: ${{ secrets.RUBYGEMS_KEY }}
+      - uses: fac/ruby-gem-push-action@v2
+        name: Push gem to Github Packages
+        with:
+          key: rubygems
+          tag: false # Don't create a github tag for the release at the same time.
+      - uses: actions/upload-artifact@v3
+        name: upload push.out
+        with:
+          name: pushout
+          path: push.out
