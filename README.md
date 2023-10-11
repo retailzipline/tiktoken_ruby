@@ -4,15 +4,17 @@
 [Tiktoken](https://github.com/openai/tiktoken) is BPE tokenizer from OpenAI used with their GPT models.
 This is a wrapper around it aimed primarily at enabling accurate counts of GPT model tokens used. 
 
-## Installation
+## Installation (Zipline-specific)
 
-Install the gem and add to the application's Gemfile by executing:
+The expected process for installing / updating this gem is through Bundler:
+```bash
+bundle add rz_tiktoken_ruby
+```
 
-    $ bundle add tiktoken_ruby
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install tiktoken_ruby
+If you need to manually install the gem, you should use a native version for your machine to prevent the need for Rust to be installed on your system:
+```bash
+gem install rz_tiktoken_ruby --platform=arm-linux # (or x86_64-linux)
+```
 
 ## Usage
 Usage should be very similar to the python library. Here's a simple example
