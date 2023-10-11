@@ -10,15 +10,17 @@ This is a wrapper around it aimed primarily at enabling accurate counts of GPT m
 I can't really put substantial time into maintaining this. Probably nothing more than a couple hours every few months. If you have experience maintaining ruby gems and would like to
 lend a hand please send me an email or reply to this [issue](https://github.com/IAPark/tiktoken_ruby/issues/26)
 
-## Installation
+## Installation (Zipline-specific)
 
-Install the gem and add to the application's Gemfile by executing:
+The expected process for installing / updating this gem is through Bundler:
+```bash
+bundle add rz_tiktoken_ruby
+```
 
-    $ bundle add tiktoken_ruby
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install tiktoken_ruby
+If you need to manually install the gem, you should use a native version for your machine to prevent the need for Rust to be installed on your system:
+```bash
+gem install rz_tiktoken_ruby --platform=arm-linux # (or x86_64-linux)
+```
 
 ## Usage
 
