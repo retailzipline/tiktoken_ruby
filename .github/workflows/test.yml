@@ -5,9 +5,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-latest", "macos-latest"]
-        ruby: [3.2, 3.0, 2.7]
-        rust: [stable]
+        os: [ubuntu-latest, "macos-latest"]
+        ruby: ['ruby-head', '3.2', '3.0', '2.7']
+        rust: ["stable"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
