@@ -14,6 +14,10 @@ jobs:
     outputs:
       result: ${{ steps.fetch.outputs.result }}
     steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.12'
       - uses: oxidize-rb/actions/fetch-ci-data@v1
         id: fetch
         with:
@@ -33,7 +37,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         name: Setup ruby
         with:
-          ruby-version: 3.2
+          ruby-version: '3.4.12'
       - uses: oxidize-rb/actions/cross-gem@v1
         name: Compile ${{ matrix.platform }}
         id: cross-gem
